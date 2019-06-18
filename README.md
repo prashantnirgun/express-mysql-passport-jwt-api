@@ -9,9 +9,9 @@ npm install
 npm run dev
 ```
 This is not yet documented but I will fix it soon.
-### LoginEndpoints
+### Login Endpoints
 ```
-POST http://localhost:5000/api/login 
+POST 'http://localhost:5000/api/login'
 BODY : {
   "username" : "amol",
   "password" : "abcd1234"
@@ -29,28 +29,45 @@ RESPONSE : {
 }
 ```
 ### GET all members
-GET http://localhost:5000/api/members
+GET *http://domain:5000/api/members*
+```
 ### GET selected fields
-GET http://localhost:5000/api/members?fields=member_name,city_name,reference_no,member_status,retirement_date 
+```
+GET http://domain:5000/api/members?fields=member_name,city_name,reference_no,member_status,retirement_date]
+```
 ### GET limit
-GET http://localhost:5000/api/members?limit=10
+```
+GET http://domain:5000/api/members?limit=10
+```
 ### GET limit with offset
-GET http://localhost:5000/api/members?limit=10&offset=3
+```
+GET http://domain:5000/api/members?limit=10&offset=3
+```
 ### GET with all params
-GET http://localhost:5000/api/members?fields=<compa seprated table column list>&limit=10&offset=3
+```
+GET http://domain:5000/api/members?fields=<compa seprated table column list>&limit=10&offset=3
+```
 ### GET selected member
-GET http://localhost:5000/api/members/4
+```
+GET http://domain:5000/api/members/4
+```
 ### Add new member
-POST http://localhost:5000/api/members/4
+```
+POST http://domain:5000/api/members/4
 BODY { "fields":"value" }
 HEADER { "Authorization" : "Bearer <COPY PASTE TOKEN RECEIVED AFTER LOGIN>"
 }
+```
 ### Update member
-PUT http://localhost:5000/api/members/4
+```
+PUT http://domain:5000/api/members/4
 BODY { "fields":"value" }
 HEADER { "Authorization" : "Bearer <COPY PASTE TOKEN RECEIVED AFTER LOGIN>"
 }
+```
 ### Delete member
-DELETE http://localhost:5000/api/members/4
+```
+DELETE http://domain:5000/api/members/4
 HEADER { "Authorization" : "Bearer <COPY PASTE TOKEN RECEIVED AFTER LOGIN>"
 }
+```
