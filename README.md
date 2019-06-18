@@ -8,6 +8,9 @@ cd <folder>
 npm install
 npm run dev
 ```
+### Configuration
+rename .env.sample file to .env and replace your database details inside it
+
 This is not yet documented but I will fix it soon.
 ### Login Endpoints
 ```
