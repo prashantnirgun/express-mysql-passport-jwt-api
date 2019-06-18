@@ -43,7 +43,7 @@ GET http://localhost:5000/api/members/4
 ### Add new member
 POST http://localhost:5000/api/members/4
 BODY { "fields":"value" }
-<COPY PASTE TOKEN RECEIVED AFTER LOGIN>"
+HEADER { "Authorization" : "Bearer <COPY PASTE TOKEN RECEIVED AFTER LOGIN>"
 }
 ### Update member
 PUT http://localhost:5000/api/members/4
