@@ -44,7 +44,7 @@ GET http://domain:5000/api/members?limit=10&offset=3
 GET http://domain:5000/api/members?fields=<compa seprated table column list>&limit=10&offset=3
 
 ### GET selected member
-GET http://domain:5000/api/members/4
+GET http://domain:5000/api/member/4
 
 ### Add new member
 POST http://domain:5000/api/member/4
