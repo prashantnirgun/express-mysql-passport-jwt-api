@@ -13,15 +13,15 @@ This is not yet documented but I will fix it soon.
 ```
 POST 'http://localhost:5000/api/login'
 BODY : {
-  "username" : "amol",
+  "username" : "testUser",
   "password" : "abcd1234"
 }
 RESPONSE : {
 "user": {
 "id": 4,
-"name": "amol",
-"email_id": "amol@gmail.com",
-"mobile": "9223588456",
+"name": "Test",
+"email_id": "test@gmail.com",
+"mobile": "1234567890",
 "user_group_id": 2,
 "user_status_id": 37
 },
