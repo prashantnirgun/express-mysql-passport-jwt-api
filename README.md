@@ -36,6 +36,8 @@ GET http://localhost:5000/api/members?fields=member_name,city_name,reference_no,
 GET http://localhost:5000/api/members?limit=10
 ### GET limit with offset
 GET http://localhost:5000/api/members?limit=10&offset=3
+### GET with all params
+GET http://localhost:5000/api/members?fields=<compa seprated table column list>&limit=10&offset=3
 ### GET selected member
 GET http://localhost:5000/api/members/4
 ### Add new member
