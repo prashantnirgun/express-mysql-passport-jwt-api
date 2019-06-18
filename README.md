@@ -1,5 +1,7 @@
-# express-mysql-api
-Create a API server with mysql table crud without ORM
+# express-mysql-passport-jwt-api
+Create a API server with mysql table crud without ORM and with passport local strategy
+
+[![npm](https://img.shields.io/npm/l/vue-easytable.svg?maxAge=2592000)](http://www.opensource.org/licenses/mit-license.php)
 
 ## Installation and execution
 ```
