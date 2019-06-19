@@ -1,23 +1,55 @@
 const pool = require("../database");
 const schema = require("./schema.model");
+const { parseResultSet, readBody } = require("../helpers");
 
 module.exports = {
   schema,
   get(params, callback) {
     let sql = queryBuilder(params);
-    pool
-      .query(sql)
-      .then(result => {
-        let output = params.verbose
-          ? { data: result, meta: { sql, total_rows: result.length } }
-          : { data: result };
 
-        callback(null, output);
-      })
-      .catch(error => {
-        sqlErrorHandler(error);
-        callback(error);
+    let rows = 0;
+    if (params.total_rows) {
+      let sql_new = `SELECT COUNT(${
+        schema[params.table].allFields[0]
+      }) as total_rows FROM ${params.table}${
+        params.where ? " WHERE " + params.where : ""
+      }${
+        typeof params.soft_delete === "undefined" || params.soft_delete
+          ? (params.where ? " AND" : " WHERE") + " deleted_by_user_id = 0"
+          : ""
+      }`;
+
+      pool.query(sql_new).then(result => {
+        rows = parseResultSet(result)[0].total_rows;
+        pool
+          .query(sql)
+          .then(result => {
+            let output = params.verbose
+              ? { data: result, meta: { sql, total_rows: rows } }
+              : { data: result };
+
+            callback(null, output);
+          })
+          .catch(error => {
+            sqlErrorHandler(error);
+            callback(error);
+          });
       });
+    } else {
+      pool
+        .query(sql)
+        .then(result => {
+          let output = params.verbose
+            ? { data: result, meta: { sql, total_rows: result.length } }
+            : { data: result };
+
+          callback(null, output);
+        })
+        .catch(error => {
+          sqlErrorHandler(error);
+          callback(error);
+        });
+    }
   },
 
   delete(params, callback) {

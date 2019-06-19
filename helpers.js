@@ -11,7 +11,8 @@ exports.readBody = function(req) {
     soft_delete,
     verbose,
     sort_by,
-    group_by
+    group_by,
+    total_rows
   } = req.query;
   opt.method = req.method;
   if (opt.method === "PUT") {
@@ -32,6 +33,7 @@ exports.readBody = function(req) {
   if (offset > 0) opt.offset = offset;
   if (sort_by) opt.order_by = sort_by;
   if (group_by) opt.group_by = group_by;
+  if (total_rows) opt.total_rows = true;
   //console.log("option", opt);
   return opt;
 };
