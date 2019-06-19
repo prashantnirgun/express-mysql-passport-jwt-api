@@ -6,4 +6,7 @@ module.exports = app => {
     app.post("/api/posts", isAuthenticated, (req, res) => {
       res.send({ msg: "post created" });
     });
+  app.get("/", (req, res) => {
+    res.send("welcome to server");
+  });
 };
