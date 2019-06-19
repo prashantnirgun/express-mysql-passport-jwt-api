@@ -26,7 +26,7 @@ module.exports = {
           .then(result => {
             let output = params.verbose
               ? { data: result, meta: { sql, total_rows: rows } }
-              : { data: result };
+              : { data: result, meta: { total_rows: rows } };
 
             callback(null, output);
           })
@@ -41,7 +41,7 @@ module.exports = {
         .then(result => {
           let output = params.verbose
             ? { data: result, meta: { sql, total_rows: result.length } }
-            : { data: result };
+            : { data: result, meta: { total_rows: result.length } };
 
           callback(null, output);
         })
