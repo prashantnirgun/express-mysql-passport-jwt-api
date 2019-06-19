@@ -117,15 +117,3 @@ function queryBuilder(params) {
 
   return sql;
 }
-/*
-function getColumnsList(table, list) {
-  console.log("inside getColumnList", schema, table);
-  switch (table) {
-    case "member":
-      return list === "all" ? member.allFiidtreak;
-    default:
-      return [];
-      break;
-  }
-}
-*/
