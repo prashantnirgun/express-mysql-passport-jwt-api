@@ -8,7 +8,7 @@ module.exports = {
     pool
       .query(sql)
       .then(result => {
-        let output = !!params.verbose
+        let output = params.verbose
           ? { data: result, meta: { sql, total_rows: result.length } }
           : { data: result };
 
@@ -29,7 +29,7 @@ module.exports = {
     pool
       .query(sql)
       .then(result => {
-        let output = !!params.verbose
+        let output = params.verbose
           ? { ...result, sql }
           : { affectedRows: result.affectedRows, message: result.message };
 
@@ -46,7 +46,7 @@ module.exports = {
     let allColumns = schema[params.table].allFields;
     //getColumnsList(params.table, "all");
     allColumns.map(column => {
-      columns = !!params.fields[column]
+      columns = params.fields[column]
         ? `${columns}, ${column} = "${params.fields[column]}"`
         : columns;
     });
@@ -55,7 +55,7 @@ module.exports = {
     pool
       .query(sql)
       .then(result => {
-        let output = !!params.verbose
+        let output = params.verbose
           ? { ...result, sql }
           : { affectedRows: result.affectedRows, message: result.message };
 
@@ -90,7 +90,8 @@ let extractFilelds = function(columns, extractedFields) {
 };
 
 function queryBuilder(params) {
-  if (!!params.columns) {
+  //console.log("params", params.order_by);
+  if (params.columns) {
     params.columns = extractFilelds(
       params.columns,
       schema[params.table].protectedFields
@@ -103,7 +104,7 @@ function queryBuilder(params) {
     params.where ? " WHERE " + params.where : ""
   }${
     typeof params.soft_delete === "undefined" || params.soft_delete
-      ? (!!params.where ? " AND" : " WHERE") + " deleted_by_user_id = 0"
+      ? (params.where ? " AND" : " WHERE") + " deleted_by_user_id = 0"
       : ""
   }${params.group_by ? " GROUP BY " + params.group_by : ""}${
     params.order_by ? " ORDER BY " + params.order_by : ""
@@ -121,8 +122,7 @@ function getColumnsList(table, list) {
   console.log("inside getColumnList", schema, table);
   switch (table) {
     case "member":
-      return list === "all" ? member.allFields : member.protectedFields;
-      break;
+      return list === "all" ? member.allFiidtreak;
     default:
       return [];
       break;
