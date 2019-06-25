@@ -624,8 +624,8 @@ CREATE TABLE `user` (
 
 
 INSERT INTO `user` (`user_id`,`company_id`,`user_group_id`,`login_status_id`,`user_name`,`login_name`,`email_id`,`mobile`,`password`,`user_status_id`,`login_attempt`,`otp`,`otp_expiry`,`token`,`token_expiry`,`archive_id`,`created_by_user_id`,`created_at`,`updated_by_user_id`,`updated_at`) VALUES 
- (1,1,2,1,'tss','tss',NULL,NULL,'',1,0,NULL,NULL,NULL,NULL,0,0,'2019-03-30 18:23:39',NULL,NULL),
- (2,1,2,1,'adinath','adinath',NULL,NULL,'adinath05',1,0,NULL,NULL,NULL,NULL,0,0,'2019-03-30 18:23:39',NULL,NULL);
+ (1,1,2,1,'demo','tss',NULL,NULL,'demo1234',1,0,NULL,NULL,NULL,NULL,0,0,'2019-03-30 18:23:39',NULL,NULL),
+ (2,1,2,1,'admin','adinath',NULL,NULL,'admin1234',1,0,NULL,NULL,NULL,NULL,0,0,'2019-03-30 18:23:39',NULL,NULL);
 
 
 DROP TABLE IF EXISTS `user_group`;
