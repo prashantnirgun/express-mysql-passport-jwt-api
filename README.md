@@ -126,14 +126,14 @@ HEADER { "Authorization" : "Bearer <COPY PASTE TOKEN RECEIVED AFTER LOGIN>"
 
 ### Feature
 
-Handllebar View Engine added
-Schema Model to autogenerate CRUD Operation
-Swagger API Integration
-Enviroment Variables
-Passport JWT
-Soft Delete Turn off / On
+- Handllebar View Engine added
+- Schema Model to autogenerate CRUD Operation
+- Swagger API Integration
+- Enviroment Variables
+- Passport JWT
+- Soft Delete Turn off / On
 
 ### References
 
-links.txt file for example / insperation I dervied from referenses.
-/scripts/tables.sql for generating MySQL database, tables & sample records
+- links.txt file for example / insperation I dervied from referenses.
+- /scripts/tables.sql for generating MySQL database, tables & sample records
