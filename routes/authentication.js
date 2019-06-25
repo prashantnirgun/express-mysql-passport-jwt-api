@@ -25,6 +25,32 @@ module.exports = app => {
 
   app.post("/api/login", (req, res) => {
     let sql =
+      "SELECT IFNULL(user_id,0) as user_id, login_name, email_id, mobile, password, user_group_id, user_status_id, login_attempt + 1 FROM user  WHERE user_name =? AND password = ?";
+    //const { username, password } = req.body;
+    let password = req.body.password;
+    let username = req.body.username;
+    console.log("inside login");
+    pool
+      .query(sql, [username, password])
+      .then(result => {
+        console.log("result as bellow");
+        console.log("result", result, username, password);
+        let data = parseResultSet(result);
+        let user = { ...data[0] };
+        delete user.password;
+        delete user["login_attempt + 1"];
+
+        if (!user.user_id) {
+          res.status(402).send("invalid credentials");
+        } else {
+          res.send({ user, token: jwtSignUser(user) });
+        }
+      })
+      .catch(err => console.log("error in query", err));
+  });
+
+  app.post("/api/login1", (req, res) => {
+    let sql =
       "SELECT IFNULL(id,0) as id, name, email_id, mobile, password, user_group_id, user_status_id, login_attempt + 1 FROM user  WHERE name =?";
     //const { username, password } = req.body;
     let password = req.body.password;

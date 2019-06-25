@@ -1,0 +1,8 @@
+<h1>{{ title }}</h1>
+
+{{#each table as |value key|}}
+OBject : {{key}}
+<p>Primary Key : {{lookup value 'primaryKey' 0}}</p>
+<p>type : {{lookup value 'type'}}</p>
+<br />
+{{/each}}

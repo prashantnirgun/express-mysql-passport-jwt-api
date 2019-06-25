@@ -23,7 +23,7 @@ exports.readBody = function(req) {
       opt.columns = fields;
     }
   }
-  opt.user_id = req.user.id;
+  if (req.user) opt.user_id = req.user.user_id;
   offset = parseInt(offset);
   limit = parseInt(limit);
 

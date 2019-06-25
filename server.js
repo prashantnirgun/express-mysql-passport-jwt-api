@@ -4,16 +4,30 @@ const port = process.env.PORT || 5000;
 const morgan = require("morgan");
 const path = require("path");
 const cors = require("cors");
+const exphbs = require("express-handlebars");
 
-app.use(express.static(path.join(__dirname, "public")));
+const swaggerUi = require("swagger-ui-express");
+const openApiDocumentation = require("./openapi");
 
 app.use(morgan("short"));
 //app.use(morgan("combined"));
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
+app.engine(
+  "hbs",
+  exphbs({
+    extname: "hbs",
+    defaultLayout: "main",
+    layoutsDir: __dirname + "/views/layouts/"
+  })
+);
+app.set("view engine", "hbs");
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 require("./passport");
 require("./routes/api")(app);
 

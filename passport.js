@@ -14,7 +14,7 @@ passport.use(
     try {
       //console.log("jwtPayload is ", jwtPayload);
 
-      let sql = "SELECT id FROM user  WHERE id =?";
+      let sql = "SELECT user_id FROM user  WHERE user_id =?";
       pool.query(sql, [jwtPayload.id]).then(result => {
         let data = parseResultSet(result);
         let user = { ...data[0] };

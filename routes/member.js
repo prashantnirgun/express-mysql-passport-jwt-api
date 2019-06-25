@@ -19,6 +19,18 @@ module.exports = app => {
       }
     });
   });
+  app.get("/api/item/", isAuthenticated, (req, res) => {
+    let opt = readBody(req);
+    opt.table = "item";
+
+    model.get(opt, (error, result) => {
+      if (error) {
+        res.status(401).send("error in endpoint");
+      } else {
+        res.send(result);
+      }
+    });
+  });
 
   app.get("/api/member_view/", isAuthenticated, (req, res) => {
     let opt = readBody(req);

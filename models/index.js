@@ -132,6 +132,11 @@ function queryBuilder(params) {
     //console.log("else", schema[params.table].allFields);
     params.columns = schema[params.table].allFields;
   }
+  if (!schema[params.table].soft_delete) {
+    params.soft_delete = false;
+    console.log("soft delete is trun off");
+  }
+
   let sql = `SELECT ${params.columns} FROM ${params.table}${
     params.where ? " WHERE " + params.where : ""
   }${
