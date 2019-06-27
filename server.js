@@ -7,7 +7,7 @@ const cors = require("cors");
 const exphbs = require("express-handlebars");
 
 const swaggerUi = require("swagger-ui-express");
-const openApiDocumentation = require("./openapi");
+const swaggerSpec = require("./config/swagger"); //Yaml file
 
 app.use(morgan("short"));
 //app.use(morgan("combined"));
@@ -27,7 +27,15 @@ app.engine(
 app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 
+//use swagger-Ui-express for your app documentation endpoint
+/*
+// If you are using .json file
+const openApiDocumentation = require("./docs/openapi");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
+*/
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 require("./passport");
 require("./routes/api")(app);
 

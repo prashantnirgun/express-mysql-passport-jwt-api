@@ -6,8 +6,8 @@ module.exports = {
   schema,
   get(params, callback) {
     let sql = queryBuilder(params);
-
     let rows = 0;
+    //console.log("inside model/index/get params", params);
     if (params.total_rows) {
       let sql_new = `SELECT COUNT(${
         schema[params.table].allFields[0]
@@ -50,6 +50,27 @@ module.exports = {
           callback(error);
         });
     }
+  },
+  insert(params, callback) {
+    sql = `INSERT INTO ${
+      params.table
+    } SET deleted_at = now(), deleted_by_user_id = ${params.user_id}`;
+    callback(null, { meta: { sql } });
+    /*
+    pool
+      .query(sql)
+      .then(result => {
+        let output = params.verbose
+          ? { ...result, sql }
+          : { affectedRows: result.affectedRows, message: result.message };
+
+        callback(null, { meta: output });
+      })
+      .catch(error => {
+        sqlErrorHandler(error);
+        callback(error);
+      });
+      */
   },
 
   delete(params, callback) {
@@ -134,7 +155,7 @@ function queryBuilder(params) {
   }
   if (!schema[params.table].soft_delete) {
     params.soft_delete = false;
-    console.log("soft delete is trun off");
+    //console.log("soft delete is trun off");
   }
 
   let sql = `SELECT ${params.columns} FROM ${params.table}${

@@ -1,0 +1,33 @@
+paths:
+  /login:
+    post:
+      tags:
+        - Authentication
+      description: login end point
+      requestBody:
+        required: true
+        content:
+          applicaiton/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: Enter username here
+                password:
+                  type: string
+                  example: Enter password here
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: Enter username here
+
+                password:
+                  type: string
+                  example: Enter password here
+      responses:
+        200:
+          description: Sucessfully login

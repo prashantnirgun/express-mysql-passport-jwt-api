@@ -1,0 +1,160 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "TSS API Documentation",
+    "description" : "This is API Documentation for developer it allows develper to better understanding of API",
+    "contact" : {
+      "name" : "Prashant Nirgun",
+      "email" : "prashant.nirgun@gmail.com"
+    },
+    "version" : "Testing"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:5000"
+  }, {
+    "url" : "https://express-mysql-passport-jwt-api.herokuapp.com/"
+  } ],
+  "paths" : {
+    "/employees" : {
+      "get" : {
+        "description" : "this is a descriptoin",
+        "parameters" : [ {
+          "name" : "bodyLimit",
+          "in" : "query",
+          "description" : "amount of employee return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 20,
+            "minimum" : 10,
+            "type" : "integer",
+            "example" : 15
+          }
+        }, {
+          "name" : "pageLimit",
+          "in" : "query",
+          "description" : "the pages to return employee info",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 5,
+            "minimum" : 1,
+            "type" : "integer",
+            "example" : 2
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Sucessfully pull the employee information",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Employees"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "description" : "Post example",
+        "requestBody" : {
+          "content" : {
+            "applicaiton/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Sucessfully created a new emplyee"
+          }
+        }
+      }
+    },
+    "/employees/{id}" : {
+      "get" : {
+        "description" : "this is a descriptoin",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The ID of the employee",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "maximum" : 20,
+            "minimum" : 10,
+            "type" : "integer",
+            "example" : 54
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Sucessfully pull the employee information",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Employee"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Employee"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Employees" : {
+        "type" : "array",
+        "description" : "Array of employees",
+        "items" : {
+          "$ref" : "#/components/schemas/Employee"
+        }
+      },
+      "Employee" : {
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 4
+          },
+          "employee name" : {
+            "type" : "string",
+            "example" : "Prashant Nirgun"
+          },
+          "employee title" : {
+            "type" : "string"
+          }
+        },
+        "description" : "Model containing employee information"
+      },
+      "body" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 4
+          },
+          "employee name" : {
+            "type" : "string",
+            "example" : "Prashant Nirgun"
+          },
+          "employee title" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

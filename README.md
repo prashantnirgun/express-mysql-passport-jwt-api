@@ -127,11 +127,20 @@ HEADER { "Authorization" : "Bearer <COPY PASTE TOKEN RECEIVED AFTER LOGIN>"
 ### Feature
 
 - Handllebar View Engine added
-- Schema Model to autogenerate CRUD Operation
-- Swagger API Integration
+- Schema Model to autogenerate CRUD Operation : one file managing 23 Table CRUD & 7 View Retrieve, Protect column from Update eg Primary Key, Password fields
+- Swagger & Open API 3.0 Integration With multiple .yaml files also documented .json
 - Enviroment Variables
 - Passport JWT
 - Soft Delete Turn off / On
+- Sort, Filter, Pagination (limit, offset) Server side Logic
+
+### Things to do
+
+- Before Delete check (hook, SQL)
+- Node Validation (Joi)
+- Escaping MySQL queries & values
+- MySQL Transaction support
+- MySQL Prepare Statement
 
 ### References
 

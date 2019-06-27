@@ -1,0 +1,268 @@
+paths:
+  /item:
+    get:
+      tags:
+        - Item
+      description: Get all items
+      parameters:
+        - $ref: "#/components/parameters/offsetParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/fieldsParam"
+        - $ref: "#/components/parameters/sortParam"
+        - $ref: "#/components/parameters/verboseParam"
+        - $ref: "#/components/parameters/totalRowstParam"
+
+      responses:
+        200:
+          description: Fetch all items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/items"
+        400:
+          $ref: "#/components/responses/Bad-Request"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+        403:
+          $ref: "#/components/responses/Forbidden"
+    post:
+      tags:
+        - Item
+      description: Used to add / Insert new item into table
+      requestBody:
+        required: true
+        content:
+          applicaiton/json:
+            schema:
+              $ref: "#/components/schemas/item"
+      responses:
+        200:
+          description: Operation Sucessfull
+        400:
+          $ref: "#/components/responses/Bad-Request"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+        403:
+          $ref: "#/components/responses/Forbidden"
+
+  /item/{id}:
+    patch:
+      tags:
+        - Item
+      description: Update existing item column(s) values
+      parameters:
+        - $ref: "#/components/parameters/idParam"
+
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/item"
+      responses:
+        200:
+          description: Operation Successfull
+        400:
+          $ref: "#/components/responses/Bad-Request"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+        403:
+          $ref: "#/components/responses/Forbidden"
+
+    delete:
+      tags:
+        - Item
+      description: delete existing item record
+      parameters:
+        - $ref: "#/components/parameters/idParam"
+
+      responses:
+        200:
+          description: Sucessfully created a new emplyee
+        400:
+          $ref: "#/components/responses/Bad-Request"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        404:
+          $ref: "#/components/responses/NotFound"
+        403:
+          $ref: "#/components/responses/Forbidden"
+
+components:
+  parameters:
+    idParam: # Can be referenced via '#/components/parameters/idParam'
+      name: id
+      in: path
+      description: ID (primary key) on which the action will going to execute.
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+
+    offsetParam: # Can be referenced via '#/components/parameters/offsetParam'
+      name: offset
+      in: query
+      description: Number of items to skip before returning the results.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 0
+
+    limitParam: # Can be referenced as '#/components/parameters/limitParam'
+      name: limit
+      in: query
+      description: Maximum number of items to return.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 20
+
+    fieldsParam: # Can be referenced as '#/components/parameters/fieldsParam'
+      name: fields
+      in: query
+      description: coma seprated field list.
+      required: false
+      schema:
+        type: string
+
+    sortParam: # Can be referenced as '#/components/parameters/sortParam'
+      name: sort_by
+      in: query
+      description: coma seprated field list.
+      required: false
+      schema:
+        type: string
+
+    verboseParam: # Can be referenced as '#/components/parameters/verboseParam'
+      name: verbose
+      in: query
+      description: Used if verbose information required for the query & resultset.
+      required: false
+      schema:
+        type: boolean
+        default: false
+
+    totalRowstParam: # Can be referenced as '#/components/parameters/totalRowstParam'
+      name: total_rows
+      in: query
+      description: Used in pagination true = no of rows fetch in table / query (ignore limit option), false = rows fetch in query (respect limit option).
+      required: false
+      schema:
+        type: boolean
+        default: false
+  responses:
+    Bad-Request:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unsupported-Media:
+      description: Unsupported Media
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes
+  schemas:
+    # Schema for error response body
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+    item_non_object: #going to remove
+      description: Model containing item information
+      properties:
+        item_id:
+          type: integer
+          example: 4
+        branch_id:
+          type: integer
+          example: 1
+        item_name:
+          type: string
+          example: Stawberry
+        item_group_id:
+          type: integer
+          example: 1
+        unit_id:
+          type: integer
+          example: 1
+        hsn:
+          type: string
+          example: 08101000
+        io:
+          type: string
+          example: Y
+    items:
+      description: Array of items
+      type: array
+      items:
+        $ref: "#/components/schemas/item"
+    item:
+      type: object
+      required:
+        - branch_id
+        - item_name
+        - item_group_id
+        - unit_id
+      properties:
+        item_id:
+          type: integer
+          minimum: 1
+        branch_id:
+          type: integer
+          minimum: 1
+        item_name:
+          type: string
+        item_group_id:
+          type: integer
+          minimum: 1
+        unit_id:
+          type: integer
+          minimum: 1
+        hsn:
+          type: string
+        io:
+          type: string

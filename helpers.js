@@ -33,7 +33,10 @@ exports.readBody = function(req) {
   if (offset > 0) opt.offset = offset;
   if (sort_by) opt.order_by = sort_by;
   if (group_by) opt.group_by = group_by;
-  if (total_rows) opt.total_rows = true;
-  //console.log("option", opt);
+  if (total_rows) {
+    opt.total_rows = total_rows == "true" ? true : false;
+  } else {
+    opt.total_rows = false;
+  }
   return opt;
 };
