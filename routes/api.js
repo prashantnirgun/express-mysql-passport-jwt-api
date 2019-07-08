@@ -6,6 +6,7 @@ module.exports = app => {
   require("./authentication")(app),
     require("./member")(app),
     require("./item")(app),
+    require("./mobile")(app),
     // app.post("/api/posts", isAuthenticated, (req, res) => {
     //   res.send({ msg: "post created" });
     // });
