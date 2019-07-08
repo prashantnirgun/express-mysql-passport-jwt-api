@@ -2,8 +2,14 @@ exports.siteName = "This is a tile";
 
 exports.parseResultSet = data => JSON.parse(JSON.stringify(data));
 
+exports.echo = function(obj) {
+  // eslint-disable-next-line no-console
+  console.log(obj);
+};
+
 exports.readBody = function(req) {
   let opt = {};
+
   let {
     offset,
     limit,
@@ -15,7 +21,7 @@ exports.readBody = function(req) {
     total_rows
   } = req.query;
   opt.method = req.method;
-  if (opt.method === "PUT") {
+  if (opt.method === "PUT" || opt.method === "POST") {
     opt.fields = req.body;
   } else {
     fields = fields ? fields.split(",") : undefined;
@@ -23,7 +29,12 @@ exports.readBody = function(req) {
       opt.columns = fields;
     }
   }
-  if (req.user) opt.user_id = req.user.user_id;
+  //Please remove this
+  if (req.user) {
+    opt.user_id = req.user.user_id;
+  } else {
+    opt.user_id = 1;
+  }
   offset = parseInt(offset);
   limit = parseInt(limit);
 

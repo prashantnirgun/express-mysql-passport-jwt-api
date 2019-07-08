@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 /*
 // If you are using .json file
 const openApiDocumentation = require("./docs/openapi");
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 */
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

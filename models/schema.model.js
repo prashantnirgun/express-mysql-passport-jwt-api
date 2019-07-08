@@ -7,10 +7,22 @@ let protectedFields = [
   "updated_at",
   "updated_by_user_id"
 ];
+
+//protected $timestamps = TRUE;
+const timestamps_format = "Y-m-d H:i:s";
+const specialFields = {
+  created_at_field: "created_at",
+  updated_at_field: "updated_at",
+  deleted_at_field: "deleted_at",
+  created_by_field: "created_by_user_id",
+  updated_by_field: "updated_by_user_id",
+  deleted_by_field: "deleted_by_user_id"
+};
+
 module.exports = {
   member: {
     protectedFields,
-    allFields: [
+    fields: [
       "company_id",
       "branch_id",
       "sap_id",
@@ -28,7 +40,7 @@ module.exports = {
   },
   member_view: {
     protectedFields,
-    allFields: [
+    fields: [
       "company_id",
       "branch_id",
       "member_id",
@@ -46,19 +58,14 @@ module.exports = {
   },
   account_format: {
     protectedFields,
-    allFields: [
-      "account_format_id",
-      "branch_id",
-      "account_format_name",
-      "side"
-    ],
+    fields: ["account_format_id", "branch_id", "account_format_name", "side"],
     primaryKey: ["account_format_id"],
     type: "table",
     soft_delete: false
   },
   account_group: {
     protectedFields,
-    allFields: [
+    fields: [
       "account_group_id",
       "branch_id",
       "account_group_name",
@@ -76,7 +83,7 @@ module.exports = {
   },
   account_head: {
     protectedFields,
-    allFields: [
+    fields: [
       "account_head_id",
       "branch_id",
       "account_head_name",
@@ -89,7 +96,7 @@ module.exports = {
   },
   address: {
     protectedFields,
-    allFields: [
+    fields: [
       "address_id",
       "reference_id",
       "table_name",
@@ -107,21 +114,21 @@ module.exports = {
   },
   branch: {
     protectedFields,
-    allFields: ["branch_id", "company_id", "branch_name", "gst", "pancard"],
+    fields: ["branch_id", "company_id", "branch_name", "gst", "pancard"],
     primaryKey: ["branch_id"],
     type: "table",
     soft_delete: false
   },
   branch_godown: {
     protectedFields,
-    allFields: ["branch_godown_id", "branch_id", "godown_id"],
+    fields: ["branch_godown_id", "branch_id", "godown_id"],
     primaryKey: ["branch_godown_id"],
     type: "table",
     soft_delete: false
   },
   client_column_property: {
     protectedFields,
-    allFields: [
+    fields: [
       "client_column_property_id",
       "company_id",
       "column_property_id",
@@ -137,7 +144,7 @@ module.exports = {
   },
   column_property: {
     protectedFields,
-    allFields: [
+    fields: [
       "column_property_id",
       "column_group",
       "statutary_id",
@@ -150,21 +157,21 @@ module.exports = {
   },
   company: {
     protectedFields,
-    allFields: ["company_id", "company_name", "company_type_id", "inventory"],
+    fields: ["company_id", "company_name", "company_type_id", "inventory"],
     primaryKey: ["company_id"],
     type: "table",
     soft_delete: false
   },
   default_narration: {
     protectedFields,
-    allFields: ["default_narration_id", "branch_id", "narration", "voucher_id"],
+    fields: ["default_narration_id", "branch_id", "narration", "voucher_id"],
     primaryKey: ["default_narration_id"],
     type: "table",
     soft_delete: false
   },
   general_ledger: {
     protectedFields,
-    allFields: [
+    fields: [
       "general_ledger_id",
       "branch_id",
       "general_ledger_name",
@@ -199,29 +206,30 @@ module.exports = {
   },
   godown: {
     protectedFields,
-    allFields: ["godown_id", "company_id", "godown_name"],
+    fields: ["godown_id", "company_id", "godown_name"],
     primaryKey: ["godown_id"],
     type: "table",
     soft_delete: false
   },
   item: {
     protectedFields,
-    allFields: [
-      "item_id",
-      "branch_id",
-      "item_name",
-      "item_group_id",
-      "unit_id",
-      "hsn",
-      "io"
+    fields: [
+      { name: "item_id", required: true, dataType: "signed" },
+      { name: "branch_id", required: true, dataType: "signed" },
+      { name: "item_name", required: true, dataType: "signed" },
+      { name: "item_group_id", required: true, dataType: "signed" },
+      { name: "unit_id", required: true, dataType: "signed" },
+      { name: "hsn", required: false, dataType: "string", default: "null" },
+      { name: "io", required: false, dataType: "string", default: "null" }
     ],
+    specialFields,
     primaryKey: ["item_id"],
     type: "table",
     soft_delete: false
   },
   item_dtl: {
     protectedFields,
-    allFields: [
+    fields: [
       "co_id",
       "item_id",
       "pur_rate",
@@ -247,14 +255,14 @@ module.exports = {
   },
   item_group: {
     protectedFields,
-    allFields: ["item_group_id", "branch_id", "item_group_name", "io"],
+    fields: ["item_group_id", "branch_id", "item_group_name", "io"],
     primaryKey: ["item_group_id"],
     type: "table",
     soft_delete: false
   },
   system_configuration: {
     protectedFields,
-    allFields: [
+    fields: [
       "id",
       "company_id",
       "description",
@@ -268,7 +276,7 @@ module.exports = {
   },
   tax: {
     protectedFields,
-    allFields: [
+    fields: [
       "tax_id",
       "branch_id",
       "tax_name",
@@ -283,7 +291,7 @@ module.exports = {
   },
   tax_detail: {
     protectedFields,
-    allFields: [
+    fields: [
       "tax_detail_id",
       "tax_id",
       "wef_date",
@@ -298,7 +306,7 @@ module.exports = {
   },
   unit: {
     protectedFields,
-    allFields: [
+    fields: [
       "unit_id",
       "branch_id",
       "unit_name",
@@ -311,7 +319,7 @@ module.exports = {
   },
   user: {
     protectedFields,
-    allFields: [
+    fields: [
       "user_id",
       "company_id",
       "user_group_id",
@@ -335,7 +343,7 @@ module.exports = {
   },
   user_group: {
     protectedFields,
-    allFields: [
+    fields: [
       "user_group_id",
       "company_id",
       "user_group_name",
@@ -348,7 +356,7 @@ module.exports = {
   },
   voucher_type: {
     protectedFields,
-    allFields: [
+    fields: [
       "voucher_type_id",
       "branch_id",
       "voucher_type_name",
@@ -366,23 +374,23 @@ module.exports = {
   },
   year: {
     protectedFields,
-    allFields: ["year_id", "company_id", "start_date", "end_date"],
+    fields: ["year_id", "company_id", "start_date", "end_date"],
     primaryKey: ["year_id"],
     type: "table",
     soft_delete: false
   },
   account_group_view: {
-    allFields: ["branch_id", "account_group_id", "account_group_name"],
+    fields: ["branch_id", "account_group_id", "account_group_name"],
     type: "view",
     soft_delete: false
   },
   account_head_view: {
-    allFields: ["branch_id", "account_head_id", "account_head_name"],
+    fields: ["branch_id", "account_head_id", "account_head_name"],
     type: "view",
     soft_delete: false
   },
   column_value_view: {
-    allFields: [
+    fields: [
       "company_id",
       "column_group",
       "column_id",
@@ -393,7 +401,7 @@ module.exports = {
     soft_delete: false
   },
   company_view: {
-    allFields: [
+    fields: [
       "company_id",
       "company_name",
       "branch_id",
@@ -408,7 +416,7 @@ module.exports = {
     soft_delete: false
   },
   general_ledger_address_view: {
-    allFields: [
+    fields: [
       "general_ledger_id",
       "branch_id",
       "general_ledger_name",
@@ -425,7 +433,7 @@ module.exports = {
     soft_delete: false
   },
   general_ledger_view: {
-    allFields: [
+    fields: [
       "branch_id",
       "general_ledger_id",
       "general_ledger_name",
@@ -436,7 +444,7 @@ module.exports = {
     soft_delete: false
   },
   item_view: {
-    allFields: [
+    fields: [
       "branch_id",
       "item_id",
       "item_name",

@@ -1,5 +1,7 @@
 //const isAuthenticated = require("../policies/isAutheticated");
 const list = require("../models/schema.model");
+const { echo } = require("../helpers");
+
 module.exports = app => {
   require("./authentication")(app),
     require("./member")(app),
@@ -15,4 +17,14 @@ module.exports = app => {
         anyArray: [1, 2, 3]
       });
     });
+
+  //For quick testing routes
+  app.get("/test", (req, res) => {
+    let a = [{ movie: "sairat" }];
+    console.log("TCL: a", a);
+
+    //console.log(Array.isArray(a));
+
+    res.send("test api");
+  });
 };
