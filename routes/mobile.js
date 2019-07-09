@@ -11,4 +11,13 @@ module.exports = app => {
       res.send(result);
     });
   });
+
+  app.get("/mobile/customer/:id", (req, res) => {
+    let sql =
+      "select customer_name1, customer_name2, owner_name, contact_person, contact_no1, contact_no2, email, no_of_company, market, wing, gala_no, sms, backup, mobile from tss_bpp_customer where id = " +
+      req.params.id;
+    pool.query(sql).then(result => {
+      res.send(result);
+    });
+  });
 };
