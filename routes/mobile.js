@@ -4,8 +4,9 @@ const { parseResultSet, readBody } = require("../helpers");
 const pool = require("../database");
 
 module.exports = app => {
-  app.get("/mobile/item", (req, res) => {
-    let sql = "select item_id,item_name, item_group_id, hsn from item";
+  app.get("/mobile/customer", (req, res) => {
+    let sql =
+      "select id, customer_name1, case market when 'v' then 'Veg' when 'f' then 'Fruit' when 'O' then 'Onion' else 'Retail' end as market, concat(wing,' ', gala_no) as gala_no from tss_bpp_customer";
     pool.query(sql).then(result => {
       res.send(result);
     });
