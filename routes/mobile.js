@@ -16,8 +16,16 @@ module.exports = app => {
     let sql =
       "select customer_name1, customer_name2, owner_name, contact_person, contact_no1, contact_no2, email, no_of_company, market, wing, gala_no, sms, backup, mobile from tss_bpp_customer where id = " +
       req.params.id;
+    let output = {};
     pool.query(sql).then(result => {
-      res.send(result);
+      output.customer = result[0];
+      sql =
+        "select co_id, company_name, starting_year, current_year from tss_bpp_company where customer_id = " +
+        req.params.id;
+      pool.query(sql).then(result => {
+        output.company = result;
+        res.send(output);
+      });
     });
   });
 };
