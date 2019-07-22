@@ -31,35 +31,47 @@ module.exports = app => {
 
   app.post("/mobile/customerSearch/", (req, res) => {
     const { customerName, galaNo, apmc, wing } = req.body;
-    let nameWhere = `${
-      customerName.length > 1
-        ? "customer_name1 like '%" + customerName + "%'"
-        : ""
-    }`;
-
-    let galaNoWhere = `${
-      galaNo.length > 1 ? "gala_no like '%" + galaNo + "%'" : ""
-    }`;
-
+    let nameWhere = "";
+    let galaNoWhere = "";
     let apmcWhere = "";
-    switch (apmc) {
-      case "Veg":
-        apmcWhere = 'market = "V"';
-        break;
-      case "Fruit":
-        apmcWhere = 'market = "F"';
-        break;
-      case "Retail":
-        apmcWhere = 'market = "R"';
-        break;
-      default:
-        apmcWhere = "";
-        break;
+    let wingWhere = "";
+
+    if (customerName) {
+      nameWhere = `${
+        customerName.length > 1
+          ? "customer_name1 like '%" + customerName + "%'"
+          : ""
+      }`;
     }
 
-    let wingWhere = `${
-      wing.length > 0 && wing !== "All" ? "wing like '%" + wing + "%'" : ""
-    }`;
+    if (galaNo) {
+      galaNoWhere = `${
+        galaNo.length > 1 ? "gala_no like '%" + galaNo + "%'" : ""
+      }`;
+    }
+
+    if (apmc) {
+      switch (apmc) {
+        case "Veg":
+          apmcWhere = 'market = "V"';
+          break;
+        case "Fruit":
+          apmcWhere = 'market = "F"';
+          break;
+        case "Retail":
+          apmcWhere = 'market = "R"';
+          break;
+        default:
+          apmcWhere = "";
+          break;
+      }
+    }
+
+    if (wing) {
+      wingWhere = `${
+        wing.length > 0 && wing !== "All" ? "wing like '%" + wing + "%'" : ""
+      }`;
+    }
 
     let whereCondition = `${nameWhere.length > 1 ? nameWhere : ""}${
       nameWhere.length > 1 && galaNoWhere.length > 1 ? " AND " : ""
