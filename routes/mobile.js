@@ -6,7 +6,7 @@ const pool = require("../database");
 module.exports = app => {
   app.get("/mobile/customer", (req, res) => {
     let sql =
-      "select id, customer_name1 as name, case market when 'v' then 'Veg' when 'f' then 'Fruit' when 'O' then 'Onion' else 'Retail' end as market, concat(wing,' ', gala_no) as gala_no from tss_bpp_customer";
+      "select id, customer_name1 as name, case market when 'v' then 'Veg' when 'f' then 'Fruit' when 'O' then 'Onion' else 'Retail' end as market, concat(wing,' ', gala_no) as gala_no from tss_bpp_customer where deleted_by_user_id = 0";
     pool.query(sql).then(result => {
       res.send(result);
     });
@@ -27,5 +27,69 @@ module.exports = app => {
         res.send(output);
       });
     });
+  });
+
+  app.post("/mobile/customerSearch/", (req, res) => {
+    const { customerName, galaNo, apmc, wing } = req.body;
+    let nameWhere = `${
+      customerName.length > 1
+        ? "customer_name1 like '%" + customerName + "%'"
+        : ""
+    }`;
+
+    let galaNoWhere = `${
+      galaNo.length > 1 ? "gala_no like '%" + galaNo + "%'" : ""
+    }`;
+
+    let apmcWhere = "";
+    switch (apmc) {
+      case "Veg":
+        apmcWhere = 'market = "V"';
+        break;
+      case "Fruit":
+        apmcWhere = 'market = "F"';
+        break;
+      case "Retail":
+        apmcWhere = 'market = "R"';
+        break;
+      default:
+        apmcWhere = "";
+        break;
+    }
+
+    let wingWhere = `${
+      wing.length > 0 && wing !== "All" ? "wing like '%" + wing + "%'" : ""
+    }`;
+
+    let whereCondition = `${nameWhere.length > 1 ? nameWhere : ""}${
+      nameWhere.length > 1 && galaNoWhere.length > 1 ? " AND " : ""
+    }${galaNoWhere.length > 1 ? galaNoWhere : ""}`;
+
+    whereCondition += `${
+      whereCondition.length > 1 && apmcWhere.length > 1 ? " AND " : ""
+    }${apmcWhere.length > 1 ? apmcWhere : ""}`;
+
+    whereCondition += `${
+      whereCondition.length > 1 && wingWhere.length > 1 ? " AND " : ""
+    }${wingWhere.length > 1 ? wingWhere : ""}`;
+
+    whereCondition += `${
+      whereCondition.length > 1 ? " AND " : ""
+    }deleted_by_user_id = 0`;
+
+    //res.send({ whereCondition, nameWhere, galaNoWhere, apmcWhere, wingWhere });
+
+    let sql =
+      "select id, customer_name1 as name, case market when 'v' then 'Veg' when 'f' then 'Fruit' when 'O' then 'Onion' else 'Retail' end as market, concat(wing,' ', gala_no) as gala_no from tss_bpp_customer WHERE " +
+      whereCondition;
+    console.log(sql);
+    pool
+      .query(sql)
+      .then(result => {
+        res.send(result);
+      })
+      .catch(err => {
+        console.log("error", err);
+      });
   });
 };
