@@ -28,7 +28,7 @@ module.exports = app => {
       req.params.customer_id;
 
     pool.query(sql).then(result => {
-      res.send(result[0]);
+      res.send(result);
     });
   });
 
