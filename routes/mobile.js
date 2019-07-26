@@ -29,7 +29,7 @@ module.exports = app => {
   });
 
   app.get("/mobile/customer-company-list/:customer_id", (req, res) => {
-    let sql = `select co_id, company_name, starting_year, current_year, company_status 
+    let sql = `select id, co_id, company_name, starting_year, current_year, company_status 
       from tss_bpp_company 
       where customer_id = ${req.params.customer_id} AND deleted_by_user_id = 0`;
 
