@@ -98,6 +98,7 @@ module.exports = app => {
     }
 
     pool.query(sql).then(result => {
+      console.log(result);
       res.send(result[0]);
     });
   });
