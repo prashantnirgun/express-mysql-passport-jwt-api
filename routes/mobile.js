@@ -56,9 +56,9 @@ module.exports = app => {
       residence_address3
     } = req.body;
     let id = req.params.id;
-
+    let sql = "";
     if (parseInt(id) === 0) {
-      let sql = `INSERT tss_bpp_customer
+      sql = `INSERT tss_bpp_customer
       (id, general_ledger_id, customer_name1, customer_name2, owner_name,
       contact_person, contact_no1, contact_no2, email,
       no_of_company, sms, backup, mobile, market, wing, gala_no,
@@ -72,7 +72,7 @@ module.exports = app => {
       '${residence_address1}', '${residence_address2}', '${residence_address3}',
       now(),1, null,null, null, 0)`;
     } else {
-      let sql = `UPDATE tss_bpp_customer
+      sql = `UPDATE tss_bpp_customer
       SET general_ledger_id = ${general_ledger_id},
       customer_name1 = '${customer_name1}',
       customer_name2 = '${customer_name2}',
