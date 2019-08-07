@@ -1,4 +1,4 @@
-//const { parseResultSet, readBody } = require("../helpers");
+const { parseResultSet } = require("../helpers");
 //const isAuthenticated = require("../../policies/isAutheticated");
 //const model = require("../models/index");
 const pool = require("../database");
@@ -245,5 +245,64 @@ module.exports = app => {
       .catch(err => {
         console.log("error", err);
       });
+  });
+
+  app.post("/mobile/attendance", (req, res) => {
+    let {
+      employee_id,
+      attendance_date,
+      time,
+      latitude,
+      longitude,
+      method,
+      day_status
+    } = req.body;
+    let sql = "";
+    sql = `SELECT check_in, check_out, day_status FROM attendance WHERE employee_id = ${employee_id} AND attendance_date = '${attendance_date}'`;
+
+    pool.query(sql).then(result => {
+      let data = parseResultSet(result);
+
+      if (result.length === 0) {
+        sql = `INSERT attendance
+        (id, employee_id, attendance_date, check_in, check_out, check_in_latitude, check_in_longitude,
+        check_out_latitude, check_out_longitude, hours, day_status)
+        VALUES(0, ${employee_id}, '${attendance_date}', 
+        ${method === "I" ? "'" + time + "'" : null}, 
+        ${method === "O" ? "'" + time + "'" : null}, 
+        ${method === "I" ? latitude : null},
+        ${method === "I" ? longitude : null},
+        ${method === "O" ? latitude : null},
+        ${method === "O" ? longitude : null},
+        0, '${day_status}')`;
+      } else {
+        if (
+          (method === "I" && !isNaN(parseFloat(data[0].check_in))) ||
+          (method === "O" && !isNaN(parseFloat(data[0].check_out)))
+        ) {
+          res.status(400).send({ error: "error sign in / out already done" });
+        } else {
+          sql = `UPDATE attendance
+        SET ${method === "I" ? "check_in" : "check_out"} = '${time}', 
+        ${
+          method === "I" ? "check_in_latitude" : "check_out_latitude"
+        } = ${latitude},
+        ${
+          method === "I" ? "check_in_longitude" : "check_out_longitude"
+        } = ${longitude}
+        WHERE employee_id = ${employee_id} AND attendance_date = '${attendance_date}'`;
+        }
+        //console.log(sql);
+
+        pool
+          .query(sql)
+          .then(result => {
+            res.send(result);
+          })
+          .catch(error => {
+            res.status(400).send({ error: "server side error" });
+          });
+      }
+    });
   });
 };
