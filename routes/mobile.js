@@ -258,16 +258,7 @@ module.exports = app => {
       day_status
     } = req.body;
     let sql = "";
-    console.log(
-      "data received from body",
-      employee_id,
-      attendance_date,
-      time,
-      latitude,
-      longitude,
-      method,
-      day_status
-    );
+
     sql = `SELECT check_in, check_out, day_status FROM attendance WHERE employee_id = ${employee_id} AND attendance_date = '${attendance_date}'`;
 
     pool.query(sql).then(result => {
@@ -291,6 +282,7 @@ module.exports = app => {
           (method === "O" && !isNaN(parseFloat(data[0].check_out)))
         ) {
           res.status(400).send({ error: "error sign in / out already done" });
+          return;
         } else {
           sql = `UPDATE attendance
         SET ${method === "I" ? "check_in" : "check_out"} = '${time}', 
@@ -303,16 +295,16 @@ module.exports = app => {
         WHERE employee_id = ${employee_id} AND attendance_date = '${attendance_date}'`;
         }
         //console.log(sql);
-
-        pool
-          .query(sql)
-          .then(result => {
-            res.send(result);
-          })
-          .catch(error => {
-            res.status(400).send({ error: "server side error" });
-          });
       }
+
+      pool
+        .query(sql)
+        .then(result => {
+          res.send(result);
+        })
+        .catch(error => {
+          res.status(400).send({ error: "server side error" });
+        });
     });
   });
 };
