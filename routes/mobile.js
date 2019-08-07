@@ -258,7 +258,16 @@ module.exports = app => {
       day_status
     } = req.body;
     let sql = "";
-    console.log("data received from body", data);
+    console.log(
+      "data received from body",
+      employee_id,
+      attendance_date,
+      time,
+      latitude,
+      longitude,
+      method,
+      day_status
+    );
     sql = `SELECT check_in, check_out, day_status FROM attendance WHERE employee_id = ${employee_id} AND attendance_date = '${attendance_date}'`;
 
     pool.query(sql).then(result => {
