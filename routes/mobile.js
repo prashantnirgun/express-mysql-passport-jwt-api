@@ -339,7 +339,7 @@ module.exports = app => {
     let { employee_id, start_date, end_date } = req.query;
 
     console.log("query param", employee_id, start_date, end_date);
-    let sql = `SELECT DATE_FORMAT(attendance_date, '%M-%Y') as month, COUNT(id) AS total,
+    let sql = `SELECT DATE_FORMAT(attendance_date, '%M %Y') as month, COUNT(id) AS total,
     SUM(if(day_status = 'A',1,0)) AS Absent, SUM(if(day_status = 'S',1,0)) AS Sunday,
     SUM(if(day_status = 'P',1,0)) AS Present, SUM(if(day_status = 'H',1,0)) AS Holiday
     FROM attendance 
