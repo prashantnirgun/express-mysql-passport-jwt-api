@@ -276,6 +276,15 @@ module.exports = app => {
         ${method === "O" ? latitude : null},
         ${method === "O" ? longitude : null},
         0, '${day_status}')`;
+
+        pool
+          .query(sql)
+          .then(result => {
+            res.send(result);
+          })
+          .catch(error => {
+            res.status(400).send({ error: "server side error" });
+          });
       } else {
         if (
           (method === "I" && !isNaN(parseFloat(data[0].check_in))) ||
@@ -297,16 +306,16 @@ module.exports = app => {
         WHERE employee_id = ${employee_id} AND attendance_date = '${attendance_date}'`;
         }
         console.log("sql", sql);
-      }
 
-      pool
-        .query(sql)
-        .then(result => {
-          res.send(result);
-        })
-        .catch(error => {
-          res.status(400).send({ error: "server side error" });
-        });
+        pool
+          .query(sql)
+          .then(result => {
+            res.send(result);
+          })
+          .catch(error => {
+            res.status(400).send({ error: "server side error" });
+          });
+      }
     });
   });
 
