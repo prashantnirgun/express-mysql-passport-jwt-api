@@ -281,6 +281,7 @@ module.exports = app => {
           (method === "I" && !isNaN(parseFloat(data[0].check_in))) ||
           (method === "O" && !isNaN(parseFloat(data[0].check_out)))
         ) {
+          console.log("already check out", parseFloat(data[0].check_out));
           res.status(400).send({ error: "error sign in / out already done" });
           return;
         } else {
