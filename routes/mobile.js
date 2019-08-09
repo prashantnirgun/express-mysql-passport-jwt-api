@@ -312,7 +312,7 @@ module.exports = app => {
     let { employee_id, start_date, end_date, day_status } = req.query;
 
     console.log("query param", employee_id, start_date, end_date, day_status);
-    let sql = `SELECT DATE_FORMAT(attendance_date,'%d %M %Y') AS attendance_date, check_in, check_out, hours, day_status,
+    let sql = `SELECT id, DATE_FORMAT(attendance_date,'%d %M %Y') AS date, check_in, check_out, hours, day_status,
     check_in_latitude, check_in_longitude, check_out_latitude, check_out_longitude
     FROM attendance 
     WHERE employee_id = ${employee_id}  AND attendance_date BETWEEN '${start_date}' AND '${end_date}' 
@@ -320,7 +320,7 @@ module.exports = app => {
       day_status === "X" ? "" : ' AND day_status = "' + day_status + '"'
     } ORDER BY attendance_date desc, id`;
 
-    //console.log(sql);
+    console.log(sql);
     pool.query(sql).then(result => {
       //console.log("=======data=======");
       //console.log(result);
@@ -340,7 +340,7 @@ module.exports = app => {
     GROUP BY year(attendance_date), month(attendance_date) 
     ORDER BY attendance_date desc`;
 
-    console.log(sql);
+    //console.log(sql);
     pool.query(sql).then(result => {
       res.send(result);
     });
