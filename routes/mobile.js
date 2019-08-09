@@ -291,7 +291,7 @@ module.exports = app => {
           (method === "O" && !isNaN(parseFloat(data[0].check_out)))
         ) {
           console.log("already check out", data[0].check_out);
-          res.send(100);
+          res.send("one");
           return;
         } else {
           console.log("else");
