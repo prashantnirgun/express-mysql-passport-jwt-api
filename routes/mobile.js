@@ -322,7 +322,8 @@ module.exports = app => {
 
     //console.log(sql);
     pool.query(sql).then(result => {
-      console.log("data", result);
+      console.log("=======data=======");
+      console.log(result);
       res.send(result);
     });
   });
