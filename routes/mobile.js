@@ -307,4 +307,41 @@ module.exports = app => {
         });
     });
   });
+
+  app.get("/mobile/attendance", (req, res) => {
+    let { employee_id, start_date, end_date, day_status } = req.query;
+
+    //console.log(employee_id, start_date, end_date, day_status);
+    let sql = `SELECT attendance_date, check_in, check_out, hours, day_status,
+    check_in_latitude, check_in_longitude, check_out_latitude, check_out_longitude
+    FROM attendance 
+    WHERE employee_id = ${employee_id}  AND attendance_date BETWEEN '${start_date}' AND '${end_date}' 
+    ${
+      day_status === "" ? "" : ' AND day_status = "' + day_status + '"'
+    } ORDER BY attendance_date desc, id`;
+
+    //console.log(sql);
+    pool.query(sql).then(result => {
+      res.send(result);
+    });
+  });
+
+  app.get("/mobile/attendance-summary", (req, res) => {
+    let { employee_id, start_date, end_date } = req.query;
+
+    //console.log(employee_id, start_date, end_date);
+    let sql = `SELECT DATE_FORMAT(attendance_date, '%M-%Y') as month, COUNT(id) AS total,
+    SUM(if(day_status = 'A',1,0)) AS Absent, SUM(if(day_status = 'S',1,0)) AS Sunday,
+    SUM(if(day_status = 'P',1,0)) AS Present, SUM(if(day_status = 'H',1,0)) AS Holiday
+    FROM attendance 
+    WHERE employee_id = ${employee_id}  AND attendance_date BETWEEN '${start_date}' AND '${end_date}'
+    GROUP BY year(attendance_date), month(attendance_date) 
+    ORDER BY attendance_date desc`;
+
+    console.log(sql);
+    pool.query(sql).then(result => {
+      res.send(result);
+    });
+  });
+  08246614102;
 };
