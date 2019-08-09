@@ -284,6 +284,7 @@ module.exports = app => {
           res.status(400).send({ error: "error sign in / out already done" });
           return;
         } else {
+          console.log("else");
           sql = `UPDATE attendance
         SET ${method === "I" ? "check_in" : "check_out"} = '${time}', 
         ${
@@ -294,7 +295,7 @@ module.exports = app => {
         } = ${longitude}
         WHERE employee_id = ${employee_id} AND attendance_date = '${attendance_date}'`;
         }
-        console.log(sql);
+        console.log("sql", sql);
       }
 
       pool
@@ -313,7 +314,7 @@ module.exports = app => {
 
     console.log("query param", employee_id, start_date, end_date, day_status);
     let sql = `SELECT id, DATE_FORMAT(attendance_date,'%d %M %Y') AS date, TIME_FORMAT(check_in, '%h:%i %p') as check_in, 
-    TIME_FORMAT(check_out,'%h:%i %p') as check_out, hours, day_status,
+    TIME_FORMAT(check_out,'%h:%i %p') as check_out, TIME_FORMAT(hours, '%h:%i') as hours, day_status,
     check_in_latitude, check_in_longitude, check_out_latitude, check_out_longitude
     FROM attendance 
     WHERE employee_id = ${employee_id}  AND attendance_date BETWEEN '${start_date}' AND '${end_date}' 
