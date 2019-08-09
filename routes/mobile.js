@@ -276,25 +276,16 @@ module.exports = app => {
         ${method === "O" ? latitude : null},
         ${method === "O" ? longitude : null},
         0, '${day_status}')`;
-
-        pool
-          .query(sql)
-          .then(result => {
-            res.send(result);
-          })
-          .catch(error => {
-            res.status(400).send({ error: "server side error" });
-          });
       } else {
         if (
           (method === "I" && !isNaN(parseFloat(data[0].check_in))) ||
           (method === "O" && !isNaN(parseFloat(data[0].check_out)))
         ) {
-          console.log("already check out", data[0].check_out);
-          res.send("one");
+          res.send({
+            error: `Already ${method == "I" ? "Sign In" : "Signout"}`
+          });
           return;
         } else {
-          console.log("else");
           sql = `UPDATE attendance
         SET ${method === "I" ? "check_in" : "check_out"} = '${time}', 
         ${
@@ -305,17 +296,17 @@ module.exports = app => {
         } = ${longitude}
         WHERE employee_id = ${employee_id} AND attendance_date = '${attendance_date}'`;
         }
-        console.log("sql", sql);
-
-        pool
-          .query(sql)
-          .then(result => {
-            res.send(result);
-          })
-          .catch(error => {
-            res.status(400).send({ error: "server side error" });
-          });
+        //console.log("sql", sql);
       }
+
+      pool
+        .query(sql)
+        .then(result => {
+          res.send(result);
+        })
+        .catch(error => {
+          res.status(400).send({ error: "server side error" });
+        });
     });
   });
 
