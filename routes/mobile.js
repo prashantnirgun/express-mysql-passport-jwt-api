@@ -282,7 +282,8 @@ module.exports = app => {
           (method === "O" && !isNaN(parseFloat(data[0].check_out)))
         ) {
           res.send({
-            error: `Already ${method == "I" ? "Sign In" : "Signout"}`
+            status: "failed",
+            message: `Already ${method == "I" ? "Sign In" : "Signout"}`
           });
           return;
         } else {
@@ -302,7 +303,10 @@ module.exports = app => {
       pool
         .query(sql)
         .then(result => {
-          res.send(result);
+          res.send({
+            status: "success",
+            message: `Data saved`
+          });
         })
         .catch(error => {
           res.status(400).send({ error: "server side error" });
