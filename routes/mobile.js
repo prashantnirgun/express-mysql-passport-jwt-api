@@ -317,7 +317,7 @@ module.exports = app => {
     FROM attendance 
     WHERE employee_id = ${employee_id}  AND attendance_date BETWEEN '${start_date}' AND '${end_date}' 
     ${
-      day_status === "" ? "" : ' AND day_status = "' + day_status + '"'
+      day_status === "X" ? "" : ' AND day_status = "' + day_status + '"'
     } ORDER BY attendance_date desc, id`;
 
     //console.log(sql);
