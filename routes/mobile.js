@@ -233,9 +233,10 @@ module.exports = app => {
 
     //res.send({ whereCondition, nameWhere, galaNoWhere, apmcWhere, wingWhere });
 
-    let sql =
-      "select id, customer_name1 as name, case market when 'v' then 'Veg' when 'f' then 'Fruit' when 'O' then 'Onion' else 'Retail' end as market, concat(wing,' ', gala_no) as gala_no from tss_bpp_customer WHERE " +
-      whereCondition;
+    let sql = `select id, customer_name1 as name, 
+    case market when 'v' then 'Veg' when 'f' then 'Fruit' when 'O' then 'Onion' else 'Retail' end as market, 
+    concat(wing,' ', gala_no) as gala_no, contact_no1 as rmn
+      from tss_bpp_customer WHERE ${whereCondition}`;
 
     pool
       .query(sql)
