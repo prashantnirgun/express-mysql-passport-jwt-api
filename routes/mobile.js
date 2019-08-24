@@ -22,9 +22,7 @@ module.exports = app => {
     no_of_company,sms,backup,mobile,market,wing,gala_no,market,wing,gala_no,
     office_address1,office_address2,office_address3,
     residence_address1,residence_address2,residence_address3 
-      from tss_bpp_customer where id = ${
-        req.params.id
-      } AND deleted_by_user_id = 0`;
+      from tss_bpp_customer where id = ${req.params.id} AND deleted_by_user_id = 0`;
 
     pool.query(sql).then(result => {
       res.send(result[0]);
@@ -353,5 +351,28 @@ module.exports = app => {
       res.send(result);
     });
   });
-  08246614102;
+
+  app.get("/mobile/ticketing-master", (req, res) => {
+    let sql = `SELECT * from tss_deparment`;
+    let data = {};
+    pool
+      .query(sql)
+      .then(result => {
+        data.department = result;
+        //res.send(data);
+
+        sql = `SELECT * from tss_ticket_category`;
+        pool.query(sql).then(result => {
+          data.ticket_category = result;
+          sql = `SELECT id, name from tss_employee`;
+          pool.query(sql).then(result => {
+            data.employee = result;
+            res.send(data);
+          });
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
 };
