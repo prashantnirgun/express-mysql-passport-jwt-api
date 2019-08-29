@@ -353,7 +353,7 @@ module.exports = app => {
   });
 
   app.get("/mobile/ticketing-master", (req, res) => {
-    let sql = `SELECT * from tss_deparment`;
+    let sql = `SELECT id, description as name from tss_deparment`;
     let data = {};
     pool
       .query(sql)
@@ -361,7 +361,7 @@ module.exports = app => {
         data.department = result;
         //res.send(data);
 
-        sql = `SELECT * from tss_ticket_category`;
+        sql = `SELECT id, department_id, description as name from tss_ticket_category`;
         pool.query(sql).then(result => {
           data.ticket_category = result;
           sql = `SELECT id, name from tss_employee`;
