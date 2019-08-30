@@ -375,4 +375,44 @@ module.exports = app => {
         console.log(error);
       });
   });
+
+  app.post("/mobile/ticket/:id", (req, res) => {
+    let {
+      customer_id,
+      assign_to_employee_id,
+      priority,
+      department_id,
+      ticket_source,
+      created_date,
+      due_date,
+      last_update_date,
+      category_id,
+      description,
+      status
+    } = req.body;
+    let id = req.params.id,
+      sql = "";
+    if (parseInt(id) === 0) {
+      sql = `INSERT INTO tss_ticket
+    (customer_id,assign_to_employee_id, priority,
+    department_id, ticket_source, created_date, due_date,
+    last_update_date, category_id, description, status)
+    VALUES
+    (${customer_id}, ${assign_to_employee_id}, '${priority}',
+    ${department_id}, ${ticket_source}, '${created_date}', '${due_date}',
+    '${last_update_date}', ${category_id}, '${description}', '${status}')`;
+    } else {
+      sql = `UPDATE tss_ticket
+      SET customer_id = {customer_id}, assign_to_employee_id = {assign_to_employee_id}, 
+      priority = '${priority}', department_id = ${department_id}, 
+      ticket_source = ${ticket_source}, created_date = '${created_date}', 
+      due_date = '${due_date}', last_update_date = '${last_update_date}', 
+      category_id = ${category_id}, description = '${description}', status = '${status}'
+      WHERE id = ${id}`;
+    }
+    pool.query(sql).then(result => {
+      console.log(result);
+      res.send(result);
+    });
+  });
 };
